@@ -7,7 +7,7 @@ using namespace std;
 /*   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   */
 //  defines
 
-#define SIZE 3
+#define SIZE 5
 
 #define X       'X'
 #define O       'O'
@@ -349,7 +349,7 @@ int minimax( int depth, char * arr, bool isAI ) {
     if( isTie( arr, AI ) ) { return TIE; }
 
     //  depth control
-    if( depth > 10 ) { return TIE; }
+    if( depth > 4 ) { return TIE; }
 
     /*   *   *   *   *   *   *   *   *   *   */
     if( isAI ) {    //  MAXIMIZE
