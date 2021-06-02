@@ -1,13 +1,15 @@
 #include <iostream>
 #include <stdlib.h> 
 #include <cstdio>
+#include <ctime>
 
 using namespace std;
 
 /*   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   */
 //  defines
 
-#define SIZE 5
+#define SIZE 6
+#define NEED 3
 
 #define X       'X'
 #define O       'O'
@@ -55,6 +57,9 @@ void insertMark( char * arr, char mark, int index );
 //  main
 
 int main() {
+
+    //  start randomizing
+    srand( time(NULL) );
 
     //  init board
     char board[ SIZE *  SIZE ];
@@ -200,27 +205,6 @@ bool isTie( char * arr, char mark ) {
     return true;
 }
 
-/*
-bool isWin( char * arr, char mark ) {
-
-    //  rows
-    if( arr[0] == mark && arr[0] == arr[1] && arr[1] == arr[2] ) { return true; }
-    if( arr[3] == mark && arr[3] == arr[4] && arr[4] == arr[5] ) { return true; }
-    if( arr[6] == mark && arr[6] == arr[7] && arr[7] == arr[8] ) { return true; }
-
-    //  columns
-    if( arr[0] == mark && arr[0] == arr[3] && arr[3] == arr[6] ) { return true; }
-    if( arr[1] == mark && arr[1] == arr[4] && arr[4] == arr[7] ) { return true; }
-    if( arr[2] == mark && arr[2] == arr[5] && arr[5] == arr[8] ) { return true; }
-
-    //  diagonals
-    if( arr[0] == mark && arr[0] == arr[4] && arr[4] == arr[8] ) { return true; }
-    if( arr[2] == mark && arr[2] == arr[4] && arr[4] == arr[6] ) { return true; }
-
-    return false;
-}
-*/
-
 bool isWin( char * arr, char mark ) {
 
     //  tests for rows
@@ -316,6 +300,7 @@ int getShift() {
 int getBestMove( char * arr ) {
 
     //  initial values
+    bool cantLost = true;
     int bestScore = N_INF;
     int bestShift = -1;
 
@@ -328,14 +313,28 @@ int getBestMove( char * arr ) {
             arr[i] = AI;
 
             int score = minimax( 0, arr, false );
+
+            //  csets best score
             if( score > bestScore ) {
                 bestScore = score;
                 bestShift = i;
             }
 
+            //  game could bee lost
+            if( score < TIE ) {
+                cantLost = false;
+            }
+
             //  unsets move
             arr[i] = EMPTY;
         }
+    }
+
+     //  makes random move
+    if( cantLost ) {
+        do {
+            bestShift = rand() % ( SIZE * SIZE );
+        } while( !isEmpty( arr, bestShift ));
     }
 
     return bestShift;
@@ -349,7 +348,7 @@ int minimax( int depth, char * arr, bool isAI ) {
     if( isTie( arr, AI ) ) { return TIE; }
 
     //  depth control
-    if( depth > 4 ) { return TIE; }
+    if( depth > 2 ) { return TIE; }
 
     /*   *   *   *   *   *   *   *   *   *   */
     if( isAI ) {    //  MAXIMIZE
@@ -392,6 +391,7 @@ int minimax( int depth, char * arr, bool isAI ) {
                 arr[i] = ME;
 
                 int score = minimax( depth + 1, arr, true );
+
                 if( score < bestScore ) {
                     bestScore = score;
                 }
