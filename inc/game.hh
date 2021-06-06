@@ -18,13 +18,13 @@ class Game {
         char player_AI;     //  AI variable
         char player_human;  //  human variable
 
-        int depth;
-        int size;
-        int need;
+        uint depth;
+        uint size;
+        uint need;
 
     public:
 
-        Game( uint size, uint need, char human, char AI, char first, int depth );
+        Game( uint size, uint need, uint depth, char AI, char human, char first );
         ~Game();
 
         bool insert( coord c );
@@ -39,5 +39,5 @@ class Game {
         coord getBestMove();
         coord getMove();
 
-        int minimax( int depth, bool AI );
+        int minimax( uint depth, bool AI );
 };

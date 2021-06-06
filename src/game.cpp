@@ -2,9 +2,13 @@
 
 /*   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   */
 
-Game::Game( uint size, uint need, char human, char AI, char first, int depth ) {
+Game::Game( uint size, uint need, uint depth, char AI, char human, char first ) {
 
     this->board = new Board( size, need );
+
+    this->depth = depth;
+    this->size = size;
+    this->need = need;
 
     this->player_human = human;
     this->player_AI = AI;
@@ -13,10 +17,6 @@ Game::Game( uint size, uint need, char human, char AI, char first, int depth ) {
     this->gameOver = false;
     this->gameTie = false;
     this->gameWin = false;
-
-    this->depth = depth;
-    this->size = size;
-    this->need = need;
 }
 
 Game::~Game() {
@@ -102,6 +102,9 @@ void Game::print() {
 
     //  prints current info message
     cout << endl;
+    cout << "   " << this->player_human << " :: player Human " << endl;
+    cout << "   " << this->player_AI << " :: player A.I. " << endl;
+    cout << endl;
     cout << " info: " << this->message << endl;
     cout << endl;
 }
@@ -173,7 +176,7 @@ coord Game::getMove() {
 
 /*   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   */
 
-int Game::minimax( int depth, bool AI ) {
+int Game::minimax( uint depth, bool AI ) {
 
     //  terminal states & depth control
     if( depth > this->depth )   { return TIE; }
