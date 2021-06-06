@@ -9,13 +9,13 @@ using namespace std;
 int main() {
 
     //  predefine
-    uint size = 4;
-    uint need = 3;
-    uint depth = 5;
+    uint size = 5;
+    uint need = 4;
+    uint depth = 3;
 
     char AI = O;
     char human = X;
-    char first = X;
+    char first = O;
 
     /*   *   *   *   *   *   *   *   *   *   */
 

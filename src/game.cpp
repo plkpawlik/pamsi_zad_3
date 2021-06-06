@@ -181,8 +181,8 @@ int Game::minimax( uint depth, bool AI ) {
     //  terminal states & depth control
     if( depth > this->depth )   { return TIE; }
 
-    if( this->board->isWin( this->player_human ) )  { return DEF; }
-    if( this->board->isWin( this->player_AI ) )     { return WIN; }
+    if( this->board->isWin( this->player_human ) )  { return ( DEF * ( 2*this->depth - depth )); }
+    if( this->board->isWin( this->player_AI ) )     { return ( WIN * ( 2*this->depth - depth )); }
     if( this->board->isTie( this->player_AI ) )     { return TIE; }
 
     /*   *   *   *   *   *   *   *   *   *   */

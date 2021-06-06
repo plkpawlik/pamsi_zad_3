@@ -96,25 +96,25 @@ bool Board::isWin( char mark ) {
                     isWin = ( this->board[ i + k ][ j + k ] == mark ) ? isWin : false;
                 }
 
-                //  is win true
+                //  is true win
                 if( isWin ) { return true; }
             }
         }
     }
 
     //  test diagonal right-top -> left-bottom
-    for( uint i = 0; i < this->size - this->need + 1; i++ ) {
+    for( uint i = this->need - 1; i < this->size; i++ ) {
         for( uint j = 0; j < this->size - this->need + 1; j++ ) {
-            
+
             //  posible win
-            if( this->board[i][ this->size - j - 1 ] == mark ) {
+            if( this->board[i][j] == mark ) {
 
                 bool isWin = true;
                 for( uint k = 0; k < this->need; k++ ) {
-                    isWin = ( this->board[ i + k ][ (this->size - j - 1) - k ] == mark ) ? isWin : false;
+                    isWin = ( this->board[ i - k ][ j + k ] == mark ) ? isWin : false;
                 }
 
-                //  is win true
+                //  is true win
                 if( isWin ) { return true; }
             }
         }
