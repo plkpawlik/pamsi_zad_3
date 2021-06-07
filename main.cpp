@@ -11,7 +11,7 @@ int main() {
     //  predefine
     uint size = 5;
     uint need = 4;
-    uint depth = 3;
+    uint depth = 5;
 
     char AI = O;
     char human = X;
