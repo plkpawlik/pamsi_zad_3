@@ -39,5 +39,5 @@ class Game {
         coord getBestMove();
         coord getMove();
 
-        int minimax( uint depth, bool AI );
+        int minimax( uint depth, bool AI, int alpha, int beta );
 };

@@ -141,7 +141,7 @@ coord Game::getBestMove() {
                 //  tests move
                 this->board->board[i][j] = this->player_AI;
 
-                int score = this->minimax( 0, false );
+                int score = this->minimax( 0, false, N_INF, P_INF );
 
                 //  better move detected
                 if( score > best ) {
@@ -176,7 +176,7 @@ coord Game::getMove() {
 
 /*   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   */
 
-int Game::minimax( uint depth, bool AI ) {
+int Game::minimax( uint depth, bool AI, int alpha, int beta ) {
 
     //  terminal states & depth control
     if( depth > this->depth )   { return TIE; }
@@ -190,6 +190,7 @@ int Game::minimax( uint depth, bool AI ) {
     /*   *   *   *   *   *   *   *   *   *   */
 
         int best = N_INF;
+        bool cutoff = false;
 
         for( uint i = 0; i < this->board->size; i++ ) {
             for( uint j = 0; j < this->board->size; j++ ) {
@@ -200,7 +201,7 @@ int Game::minimax( uint depth, bool AI ) {
                     //  tests move
                     this->board->board[i][j] = this->player_AI;
 
-                    int score = this->minimax( depth + 1, false );
+                    int score = this->minimax( depth + 1, false, alpha, beta );
 
                     //  better move detected
                     if( score > best ) {
@@ -209,8 +210,18 @@ int Game::minimax( uint depth, bool AI ) {
 
                     //  restores move
                     this->board->board[i][j] = EMPTY;
+
+                    //  alpha - beta
+                    alpha = ( score > alpha ) ? score : alpha;
+                    cutoff = ( beta <= alpha ) ? true : false;
+
+                    //  check cutoff
+                    if( cutoff ) { break; }
                 }
             }
+
+            //  check cutoff
+            if( cutoff ) { break; }
         }
 
         return best;
@@ -220,6 +231,7 @@ int Game::minimax( uint depth, bool AI ) {
     /*   *   *   *   *   *   *   *   *   *   */
 
         int worst = P_INF;
+        bool cutoff = false;
 
         for( uint i = 0; i < this->board->size; i++ ) {
             for( uint j = 0; j < this->board->size; j++ ) {
@@ -230,7 +242,7 @@ int Game::minimax( uint depth, bool AI ) {
                     //  tests move
                     this->board->board[i][j] = this->player_human;
 
-                    int score = this->minimax( depth + 1, true );
+                    int score = this->minimax( depth + 1, true, alpha, beta );
 
                     //  better move detected
                     if( score < worst ) {
@@ -239,8 +251,18 @@ int Game::minimax( uint depth, bool AI ) {
 
                     //  restores move
                     this->board->board[i][j] = EMPTY;
+
+                    //  alpha - beta
+                    beta = ( score < beta ) ? score : beta;
+                    cutoff = ( beta <= alpha ) ? true : false;
+
+                    //  check cutoff
+                    if( cutoff ) { break; }
                 }
             }
+
+            //  check cutoff
+            if( cutoff ) { break; }
         }
 
         return worst;
